@@ -1,0 +1,76 @@
+Flash to Phaser Guide 
+ 
+ 
+Version 1.0 – May 28th 2014 
+By Richard Davey (rich@photonstorm.com) 
+What is it? 
+Flash to Phaser is a JSFL script that will aid in the process of laying out scenes within the Flash IDE 
+and converting them into Phaser JavaScript files. It works by parsing the Stage for any Bitmap or 
+Symbol objects and then automatically builds-up a JavaScript source file including preload and 
+create functions that accurately re-create what is seen inside the Flash IDE. 
+If the script encounters a Symbol it treats it as a Phaser Group and uses the Symbol name as a 
+Group name. Any Bitmaps within the Symbol are treated as Group children and positioned 
+accordingly. 
+Objects have their x, y, rotation and scale properties re-created in the JavaScript. 
+Installation 
+There are two ways to install JSFL scripts into the Flash IDE. One is to copy them into the Flash 
+application data folder, specifically into the “Configuration/Commands” sub-folder. The location 
+of this varies tremendously based on OS and Flash version. There is a slightly out dated guide 
+available here on the Adobe site. 
+An easier method is to create the script manually, which is what I’ll describe here. 
+1 
+ 
+1. Open Flash. In this guide I’m using Flash CC, but the process should be the same 
+regardless. 
+2. On the “Open” screen select “Create New: Flash JavaScript File” 
+ 
+ 
+ 
+  
+2 
+ 
+3. The Flash IDE will open a completely blank document. Copy and paste the entire contents 
+of the “Flash to Phaser.jsfl” script into this editor window. You can find the latest version 
+of this script in the Phaser github repository in the ‘resources’ folder. 
+ 
+ 
+ 
+  
+3 
+ 
+4. Once pasted in, select “File – Save As” and it will prompt you for a name for the script. 
+Enter “Flash to Phaser.jsfl” and hit “Save”: 
+ 
+ 
+ 
+5. The script is now installed and ready for use. 
+How to prepare your FLA 
+ 
+The JSFL script works by parsing all objects that are on the first Layer of the Stage. It only 
+supports Bitmaps and Symbols. 
+It will automatically round object x/y values to the nearest whole pixel. If you don’t wish for this 
+you can edit the JSFL script and set the var round Boolean to false. 
+Bitmaps 
+These are the easiest to manage. Simply drag all the images you require for your game into the 
+Flash Library. Then drag them onto the Stage ensuring they are on the first Layer. Once on the 
+Stage you can position them, rotate them and scale them as required. 
+The order in which they are layered on the Stage controls the order in which they are created 
+within Phaser. So bitmaps placed “behind” other bitmaps will re-create in that order in the 
+generated JavaScript code. 
+4 
+ 
+Symbols 
+The script converts Symbols into Phaser Groups. A Symbol can contain as many Bitmap objects 
+as you like, all positioned, scaled and rotated as required relative to the parent. 
+When the script runs it will identify that you’ve got a Symbol on the Stage and generate a Phaser 
+Group based on its name. The Group will be positioned matching the Symbol coordinates. 
+It will then scan one level deep within the Symbol for any Bitmap objects and create those as 
+children of the Group. There are two important things to remember to ensure an accurate 
+export: 
+1) The Symbol name becomes the Group name, with any spaces removed. 
+2) The Symbol registration point must be the top-left: 
+ 
+In the screen shot below you can see several bitmaps dragged onto the Stage: 
+ 
+5 
+ 
